@@ -1,0 +1,742 @@
+WITH top_paying_jobs AS(
+    SELECT
+        job_id,
+        job_title,
+        salary_year_avg,
+        name AS company_name
+    FROM
+        job_postings_fact
+    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+    WHERE 
+        (job_title LIKE 'Data Scien%'
+        OR job_title LIKE 'AI%'
+        OR job_title LIKE 'A.I%'
+        OR job_title LIKE 'ML%'
+        OR job_title LIKE 'Machin%')
+        AND job_location = 'Anywhere' 
+        AND salary_year_avg IS NOT NULL
+    ORDER BY salary_year_avg DESC
+    LIMIT 20
+)
+SELECT 
+    top_paying_jobs.*,
+    skills
+FROM top_paying_jobs
+INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY
+    salary_year_avg DESC
+
+
+
+    -- Based on the analysis, Python and SQL are the most frequently required skills, appearing 18 and 16 times respectively. Other important skills include Tableau, R, Excel, and Spark. Pandas, NumPy, and Scikit-learn, which are Python libraries, also feature among the top skills, indicating the importance of data manipulation and machine learning in these roles.
+
+-- [
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "java"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "cassandra"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "spark"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "hadoop"
+--   },
+--   {
+--     "job_id": 1131472,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "375000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 901491,
+--     "job_title": "Machine Learning Engineer",
+--     "salary_year_avg": "300000.0",
+--     "company_name": "orbit",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 901491,
+--     "job_title": "Machine Learning Engineer",
+--     "salary_year_avg": "300000.0",
+--     "company_name": "orbit",
+--     "skills": "typescript"
+--   },
+--   {
+--     "job_id": 901491,
+--     "job_title": "Machine Learning Engineer",
+--     "salary_year_avg": "300000.0",
+--     "company_name": "orbit",
+--     "skills": "golang"
+--   },
+--   {
+--     "job_id": 1177572,
+--     "job_title": "Data Science Manager, Online Customer Experience Intelligence (Remote)",
+--     "salary_year_avg": "280000.0",
+--     "company_name": "Home Depot / THD",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1177572,
+--     "job_title": "Data Science Manager, Online Customer Experience Intelligence (Remote)",
+--     "salary_year_avg": "280000.0",
+--     "company_name": "Home Depot / THD",
+--     "skills": "bigquery"
+--   },
+--   {
+--     "job_id": 1177572,
+--     "job_title": "Data Science Manager, Online Customer Experience Intelligence (Remote)",
+--     "salary_year_avg": "280000.0",
+--     "company_name": "Home Depot / THD",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "java"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "cassandra"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "aws"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "spark"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "airflow"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "hadoop"
+--   },
+--   {
+--     "job_id": 158782,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "275000.0",
+--     "company_name": "Algo Capital Group",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 257651,
+--     "job_title": "Data Science Vice President",
+--     "salary_year_avg": "265000.0",
+--     "company_name": "Storm6",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 257651,
+--     "job_title": "Data Science Vice President",
+--     "salary_year_avg": "265000.0",
+--     "company_name": "Storm6",
+--     "skills": "opencv"
+--   },
+--   {
+--     "job_id": 751285,
+--     "job_title": "Machine Learning Researcher",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Acceler8 Talent",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 751285,
+--     "job_title": "Machine Learning Researcher",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Acceler8 Talent",
+--     "skills": "excel"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "scala"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "r"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "spark"
+--   },
+--   {
+--     "job_id": 245928,
+--     "job_title": "Data Science Manager",
+--     "salary_year_avg": "262500.0",
+--     "company_name": "Stealth",
+--     "skills": "hadoop"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "javascript"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "html"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "mongodb"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "vba"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "php"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "mongodb"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "aws"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "tensorflow"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "scikit-learn"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "excel"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 1489914,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "250000.0",
+--     "company_name": "Smith Hanley Associates",
+--     "skills": "powerpoint"
+--   },
+--   {
+--     "job_id": 67310,
+--     "job_title": "Machine Learning Engineer",
+--     "salary_year_avg": "240000.0",
+--     "company_name": "Acceler8 Talent",
+--     "skills": "tensorflow"
+--   },
+--   {
+--     "job_id": 67310,
+--     "job_title": "Machine Learning Engineer",
+--     "salary_year_avg": "240000.0",
+--     "company_name": "Acceler8 Talent",
+--     "skills": "pytorch"
+--   },
+--   {
+--     "job_id": 352449,
+--     "job_title": "Data Science Vice President",
+--     "salary_year_avg": "225000.0",
+--     "company_name": "Primis",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 352449,
+--     "job_title": "Data Science Vice President",
+--     "salary_year_avg": "225000.0",
+--     "company_name": "Primis",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "nosql"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "pandas"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "numpy"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "scikit-learn"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "phoenix"
+--   },
+--   {
+--     "job_id": 1240944,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "United Services Automobile Association",
+--     "skills": "excel"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "nosql"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "pandas"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "numpy"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "scikit-learn"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "phoenix"
+--   },
+--   {
+--     "job_id": 1127902,
+--     "job_title": "Data Scientist Lead-Enterprise Market Risk (Remote)",
+--     "salary_year_avg": "221665.0",
+--     "company_name": "USAA",
+--     "skills": "excel"
+--   },
+--   {
+--     "job_id": 163689,
+--     "job_title": "Data Scientist, Customer Analytics",
+--     "salary_year_avg": "215000.0",
+--     "company_name": "Harnham",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 163689,
+--     "job_title": "Data Scientist, Customer Analytics",
+--     "salary_year_avg": "215000.0",
+--     "company_name": "Harnham",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 163689,
+--     "job_title": "Data Scientist, Customer Analytics",
+--     "salary_year_avg": "215000.0",
+--     "company_name": "Harnham",
+--     "skills": "aws"
+--   },
+--   {
+--     "job_id": 163689,
+--     "job_title": "Data Scientist, Customer Analytics",
+--     "salary_year_avg": "215000.0",
+--     "company_name": "Harnham",
+--     "skills": "excel"
+--   },
+--   {
+--     "job_id": 163689,
+--     "job_title": "Data Scientist, Customer Analytics",
+--     "salary_year_avg": "215000.0",
+--     "company_name": "Harnham",
+--     "skills": "github"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "r"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "spark"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "pandas"
+--   },
+--   {
+--     "job_id": 711319,
+--     "job_title": "Data Scientist Leader (Revenue/Marketing)",
+--     "salary_year_avg": "210000.0",
+--     "company_name": "Irvine Technology Corporation",
+--     "skills": "numpy"
+--   },
+--   {
+--     "job_id": 1210289,
+--     "job_title": "Data Science Manager II - Membership",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1210289,
+--     "job_title": "Data Science Manager II - Membership",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1210289,
+--     "job_title": "Data Science Manager II - Membership",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 1210289,
+--     "job_title": "Data Science Manager II - Membership",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "looker"
+--   },
+--   {
+--     "job_id": 1355364,
+--     "job_title": "Data Science Manager II - Delivery",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1355364,
+--     "job_title": "Data Science Manager II - Delivery",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1355364,
+--     "job_title": "Data Science Manager II - Delivery",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "tableau"
+--   },
+--   {
+--     "job_id": 1355364,
+--     "job_title": "Data Science Manager II - Delivery",
+--     "salary_year_avg": "206000.0",
+--     "company_name": "Uber",
+--     "skills": "looker"
+--   },
+--   {
+--     "job_id": 1538418,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "204500.0",
+--     "company_name": "Grammarly",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1538418,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "204500.0",
+--     "company_name": "Grammarly",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1538418,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "204500.0",
+--     "company_name": "Grammarly",
+--     "skills": "scala"
+--   },
+--   {
+--     "job_id": 1538418,
+--     "job_title": "Data Scientist",
+--     "salary_year_avg": "204500.0",
+--     "company_name": "Grammarly",
+--     "skills": "r"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "r"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "go"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "redshift"
+--   },
+--   {
+--     "job_id": 1232291,
+--     "job_title": "Data Scientist, Product",
+--     "salary_year_avg": "200000.0",
+--     "company_name": "Figma",
+--     "skills": "snowflake"
+--   },
+--   {
+--     "job_id": 285380,
+--     "job_title": "Data Scientist, Product Analytics - Monetization",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 285380,
+--     "job_title": "Data Scientist, Product Analytics - Monetization",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 285380,
+--     "job_title": "Data Scientist, Product Analytics - Monetization",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "r"
+--   },
+--   {
+--     "job_id": 259986,
+--     "job_title": "Data Science Manager, Analytics",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "sql"
+--   },
+--   {
+--     "job_id": 259986,
+--     "job_title": "Data Science Manager, Analytics",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "python"
+--   },
+--   {
+--     "job_id": 259986,
+--     "job_title": "Data Science Manager, Analytics",
+--     "salary_year_avg": "198500.0",
+--     "company_name": "Meta",
+--     "skills": "r"
+--   }
+-- ]
