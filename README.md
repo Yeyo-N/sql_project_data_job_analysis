@@ -28,4 +28,4 @@ To find the answer to these questions I devided it into 5 main questions and ans
 - Ideal skills lie in the balance—like Spark, AWS, and Tableau—where demand and salary are both relatively strong. These are solid choices for career growth.
 
 
-![alt text](image-1.png)
+![Top Paying Roles](assets/image-1.png)
